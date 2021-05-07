@@ -4,17 +4,26 @@ namespace App\Http\Controllers;
 
 use App\Models\Todo;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use Illuminate\Support\Facades\DB;
 
 class TodoController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|Response
      */
     public function index()
     {
-        //
+//        echo 'Vadim-2107';
+//        $todos = DB::table('todos')->get();
+//
+//        return view('todo', ['todos' => $todos]);
+//        return view('todo', ['todos' => '7878787']);
+        foreach (Todo::all() as $todo) {
+            echo $todo->name;
+        }
     }
 
     /**
@@ -24,7 +33,8 @@ class TodoController extends Controller
      */
     public function create()
     {
-        //
+        echo 'Vadim-2107-create';
+//        return Todo::create();
     }
 
     /**
@@ -35,7 +45,12 @@ class TodoController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        return Todo::create($request->validated());
+//        return Todo::writeTable($request->validated());
+//        $todo = new Todo;
+//        $todo->title = $request->title;
+//        $todo->description = $request->description;
+//        $todo->save();
     }
 
     /**
@@ -44,9 +59,11 @@ class TodoController extends Controller
      * @param  \App\Models\Todo  $todo
      * @return \Illuminate\Http\Response
      */
-    public function show(Todo $todo)
+    public function show($id)
     {
-        //
+        echo 'Vadim-2107 id = '.$id;
+
+//        return Todo::findOrFail($id);
     }
 
     /**
@@ -69,7 +86,8 @@ class TodoController extends Controller
      */
     public function update(Request $request, Todo $todo)
     {
-        //
+        $todo->fillable($request->validated());
+        return $todo->save();
     }
 
     /**
@@ -80,6 +98,9 @@ class TodoController extends Controller
      */
     public function destroy(Todo $todo)
     {
-        //
+        if ($todo->delete()) {
+            return response(null, Response::HTTP_NO_CONTENT);
+        }
+        return null;
     }
 }
