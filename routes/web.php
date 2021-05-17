@@ -22,7 +22,7 @@ use App\Http\Controllers\TodoController;
 
 Route::get('/todo', [TodoController::class, 'index']);
 Route::get('/todo/create', [TodoController::class, 'create']);
-//Route::post('/todo', [TodoController::class, 'store']);
+Route::post('/todo', [TodoController::class, 'store']);
 Route::get('/todo/{id}', [TodoController::class, 'show']);
 //Route::get('/todo/{todo}/edit', [TodoController::class, 'edit']);
 //Route::put('/todo/{todo}', [TodoController::class, 'update']);

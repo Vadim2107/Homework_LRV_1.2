@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Route;
 
 class Todo extends Model
 {
@@ -15,32 +17,49 @@ class Todo extends Model
 
     protected $fillable = [
         'title',
-        'description'
+        'description',
+        'created_at',
+        'updated_at'
     ];
 //    protected $hidden = [
 //        'created_at',
 //        'updated_at',
 //    ];
 
-    public function showTable()
+    static function showTable()
     {
-        echo 'Vadim-2107';
-        //        return view('todo');
+        $todos = DB::table('todos')->get();
+
+//        return view('todo', ['todos' => $todos]);
+                return $todos;
+//        foreach ($todos as $todo) {
+//            echo "$todo->id\n $todo->title\n";
+//        }
     }
 
-    public function findOrFail($id)
+    static function showId($id)
     {
-        $todo = Todo::where('id', $id)->get();
+//        echo "Vadim-2107 id = .$id";
+        $todoId = DB::table('todos')->find($id);
 
+//        return view('todo', ['todos' => $todoId]);
+        return $todoId;
     }
 
-    public function writeTask()
+    static function writeTask()
     {
-        return redirect()->back();
+        DB::table('todos')->insert([
+            'title' => 'TASK-12',
+            'description' => 'VADIM-12',
+            'created_at' => '2021-05-16 19:38:00',
+            'updated_at' => '2021-05-16 19:39:49'
+        ]);
+//        echo "Vadim-create: \n";
+//        return DB::table('todos')->get();
+
+        return redirect()->route('/todo');
+//        return redirect()->route(Route::redirect('/todo/create', '/todo'));
+//        return Route::redirect('/todo/create', '/todo');
+//        return redirect()->back();
     }
 }
-
-$todo = App\Models\Todo::create([
-    'title' => 'Задача 1',
-    'description' => 'Хорошо выспаться перед дальней дорогой!!!',
-]);

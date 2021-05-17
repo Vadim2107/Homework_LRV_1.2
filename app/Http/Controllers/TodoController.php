@@ -12,18 +12,13 @@ class TodoController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|Response
+//     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|Response
+     * @return \Illuminate\Support\Collection
      */
     public function index()
     {
-//        echo 'Vadim-2107';
-//        $todos = DB::table('todos')->get();
-//
-//        return view('todo', ['todos' => $todos]);
-//        return view('todo', ['todos' => '7878787']);
-        foreach (Todo::all() as $todo) {
-            echo $todo->name;
-        }
+        echo "Таблица - todos:\n";
+        return Todo::showTable();
     }
 
     /**
@@ -33,8 +28,8 @@ class TodoController extends Controller
      */
     public function create()
     {
-        echo 'Vadim-2107-create';
-//        return Todo::create();
+//       echo "Vadim-create: \n";
+       Todo::writeTask();
     }
 
     /**
@@ -45,12 +40,7 @@ class TodoController extends Controller
      */
     public function store(Request $request)
     {
-        return Todo::create($request->validated());
-//        return Todo::writeTable($request->validated());
-//        $todo = new Todo;
-//        $todo->title = $request->title;
-//        $todo->description = $request->description;
-//        $todo->save();
+
     }
 
     /**
@@ -58,12 +48,13 @@ class TodoController extends Controller
      *
      * @param  \App\Models\Todo  $todo
      * @return \Illuminate\Http\Response
+//     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|Response
      */
     public function show($id)
     {
-        echo 'Vadim-2107 id = '.$id;
-
-//        return Todo::findOrFail($id);
+//        echo 'Vadim-2107 id = '.$id;
+//        return Todo::showId($id);
+        return DB::table('todos')->find($id);
     }
 
     /**
