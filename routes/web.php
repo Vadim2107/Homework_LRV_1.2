@@ -20,7 +20,7 @@ use App\Http\Controllers\TodoController;
 //    return view('welcome');
 //});
 
-Route::get('/todo', [TodoController::class, 'index']);
+Route::get('/todo', [TodoController::class, 'index'])->name('todo');
 Route::get('/todo/create', [TodoController::class, 'create']);
 Route::post('/todo', [TodoController::class, 'store']);
 Route::get('/todo/{id}', [TodoController::class, 'show']);

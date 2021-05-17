@@ -5,60 +5,58 @@ namespace App\Http\Controllers;
 use App\Models\Todo;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Illuminate\Support\Facades\DB;
+//use Illuminate\Support\Facades\DB;
+//use Illuminate\Support\Facades\Route;
 
 class TodoController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Отображение списка ресурсов (таблицы).
      *
-//     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|Response
      * @return \Illuminate\Support\Collection
      */
     public function index()
     {
         echo "Таблица - todos:\n";
-        return Todo::showTable();
+//        return Todo::showTable();
+        return Todo::paginate(10);
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Отображение формы для создания нового ресурса (строки таблицы).
      *
      * @return \Illuminate\Http\Response
      */
     public function create()
     {
-//       echo "Vadim-create: \n";
-       Todo::writeTask();
+       return Todo::writeTask();
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Создание новой записи.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
-
+        return Todo::create($request->validated());
     }
 
     /**
-     * Display the specified resource.
+     * Отображение указанного ресурса.
      *
-     * @param  \App\Models\Todo  $todo
+     * @param  $id
      * @return \Illuminate\Http\Response
-//     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|Response
      */
     public function show($id)
     {
-//        echo 'Vadim-2107 id = '.$id;
 //        return Todo::showId($id);
-        return DB::table('todos')->find($id);
+        return Todo::findOrFail($id);
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Отображение формы для редактирования указанного ресурса.
      *
      * @param  \App\Models\Todo  $todo
      * @return \Illuminate\Http\Response
@@ -69,7 +67,7 @@ class TodoController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Обновление указанной записи.
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \App\Models\Todo  $todo
@@ -77,12 +75,12 @@ class TodoController extends Controller
      */
     public function update(Request $request, Todo $todo)
     {
-        $todo->fillable($request->validated());
+        $todo->fill($request->validated());
         return $todo->save();
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Удаление указанного ресурса.
      *
      * @param  \App\Models\Todo  $todo
      * @return \Illuminate\Http\Response
